@@ -9,7 +9,7 @@
 <form action="/photos/<%= user.id %>/confirm" method="post">
      <select name="title">
    <% all_tags.each do |tag| %>
-        <option value="<%= tag.title %>"><%= tag.title %></option>  
+        <option value="<%= tag.title %>"><%= tag.title %></option>
     <% end %>
    </select>
 <input type="submit" name="submit" value="Tag!" />
