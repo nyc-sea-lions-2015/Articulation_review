@@ -1,0 +1,61 @@
+<div class="login">
+  <% if session[:message] %>
+  <%= session[:message]%>
+  <% session[:message].clear %>
+  <% end %>
+
+  <form action='/authentication/login' method='post'>
+    <input class="form-control" type='text' name='handle' placeholder='HANDLE'/><br>
+    <input class="form-control" type='password' name='password' placeholder='PASSWORD'/><br>
+    <input class="btn btn-default"  type='submit' value='signin'/>
+  </form>
+</div>
+
+<div class="well">
+  <div class="signup">
+    <form action='/authentication/register_user' method='post'>
+      <input class="form-control" type='text' name='first_name' placeholder='FIRSTNAME'/><br>
+      <input class="form-control" type='text' name='last_name' placeholder='LASTNAME'/><br>
+      <input class="form-control" type='text' name='email' placeholder='EMAIL'/><br>
+      <input class="form-control" type='text' name='handle' placeholder='HANDLE'/><br>
+      <input class="form-control" type='text' name='password' placeholder='PASSWORD'/><br>
+      <input class="form-control" type='text' name='password_confirm' placeholder='PASSWORD'/><br>
+      <input class="form-control" type='text' name='bio' placeholder='USER BIO'/><br>
+      <input class="btn btn-default"  type='submit' value='sign up'/>
+    </form>
+  </div>
+</div>
+
+
+<div class="container">
+ <div class="row panel" style="padding: 20px;">
+  <% if current_user %>
+  <% @allphotos.each do |photo| %>
+  <div class="col-xs-6 col-md-4">
+    <a href="/photos/<%= photo.id %>" class="thumbnail">
+      <img src="<%=photo.url%>" alt="<%=photo.title%>">
+    </a>
+  </div>
+  <% end %>
+  <% else %>
+  <% @allphotos.each do |photo| %>
+  <div class="col-xs-6 col-md-4">
+    <a href="/authentication/signup" class="thumbnail">
+      <img src="<%=photo.url%>" alt="<%=photo.title%>">
+    </a>
+  </div>
+  <% end %>
+  <% end %>
+
+</div>
+</div>
+
+<div class="container" >
+  <div class="row panel" style="padding: 20px;">
+    <% @tags.each do |tag| %>
+    <a href="/tags/<%= tag.id %>" >
+      <%= tag.title %>
+    </a>
+    <% end %>
+  </div>
+</div>

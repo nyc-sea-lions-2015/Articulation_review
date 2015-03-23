@@ -1,0 +1,57 @@
+<div class="container-fluid photo-page">
+  <div class="top-picture">
+    <div class="left portrait">
+      <% name="#{picture.user.first_name} #{picture.user.last_name}"%>
+       <h2 class="title main-title">AUTHOR: <%= name.upcase %></h2>
+       <img src="<%= "/#{picture.url}" %>" class="img-responsive" height="420" width="420">
+    </div>
+    <div class="container-fluid photo-tags">
+      <h3 class="title tags-title">TAGS</h3>
+       <%picture.tags.each do |tag|%>
+         <ul>
+           <li><p class="tag-body"><%=tag.title%></p><br>
+             <%if picture.user_id==user.id%>
+               <form class="delete-form" action="../photos/<%=picture.id%>/remove_tag" method="get">
+                <input type="hidden" name="picture_id" value="<%=picture.id%>"/>
+                <input type="hidden" name="tag_id" value="<%=tag.id%>"/>
+                <input class="no-border" type="submit" value="delete">
+              </form>
+             <%end%>
+           </li>
+         </ul>
+      <%end%>
+     <%if picture.user_id==user.id%>
+        <form class="add-tag-form" action="../photos/<%=picture.id%>/add_tag" id="add-tag" method="post">
+        <input class="no-border add-tag-btn" type="submit" value="Add tag">
+        <select class="form-control" name="title">
+          <%Tag.all.each do |tag|%>
+            <% unless picture.tags.include?(tag)%>
+              <option name="title" value="<%=tag.title%>"><%=tag.title%></option>
+            <%end%>
+          <%end%>
+        </select>
+        <input type="hidden" name="picture_id" value="<%=picture.id%>">
+      </form><br>
+    <%end%>
+  </div>
+ </div>
+
+
+  <div class="bottom-comments"><h1 class="title comment_title">DISCUSSION</h1>
+   <div class="right">
+    <% if picture.comments.count > 0 %>
+        <% picture.comments.each do |comment|%>
+          <ul>
+              <% unless comment.parent_id %>
+                 <%= erb :"comments/show", locals: {comment: comment, picture: picture, user: user} %>
+              <% end%>
+          </ul>
+       <% end%>
+    <% end%>
+    <button class="hidden_create_btn no-border indent-field">Create a comment</button>
+      <div class="hidden_create">
+         <%= erb :"comments/new", locals: { photo_id: picture.id,parent_id: nil} %>
+      </div>
+  </div>
+</div>
+</div>
